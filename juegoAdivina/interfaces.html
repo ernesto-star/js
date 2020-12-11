@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Interfaces</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script>
+        function guardarNombre(){
+            let nombre = document.getElementById("nom_usuario").value;
+            console.log(nombre);
+            localStorage.setItem('usuario', nombre);
+            window.location.href="file:///Users/tardes/alumno/juegoAdivina/juego.html";
+
+        }
+        
+
+    </script>
+</head>
+
+<body>
+    <input type="string" id="nom_usuario">
+    <input type="button" value="nombre" onclick="guardarNombre()">
+
+
+</body>
+
+</html>
