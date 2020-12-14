@@ -31,42 +31,53 @@
     <script>
         this.onload = inicio;//SIN PARÉNTESIS
         //this.onload = recogernombre;
-    
+
         const NUM_INTENTOS_MAX = 5;
         const RUTA_FOTO_PIERDE = "https://media.tenor.com/images/9ff77762b2ae15c8f78fb711982fbf73/tenor.gif";
         const RUTA_FOTO_GANA = "https://i.pinimg.com/originals/0e/68/6f/0e686faa391f1f47ab74fd21a3124103.gif";
         let naleatorio;//ámbito global : accesible desde todas las funciones
         let num_intentos;//declaro
         let elemento_imagen_res;
+        let numeros_jugados;
         function inicio() {
 
             //CALCULAR EL NUMERO ALEATORIO
             naleatorio = Math.floor(Math.random() * 100) + 1;
-            console.log ("Num secreto "+ naleatorio);
+            console.log("Num secreto " + naleatorio);
+            numeros_jugados = [];
             num_intentos = 0;
             document.getElementById("vidas").innerHTML = NUM_INTENTOS_MAX;
             elemento_imagen_res = document.querySelector("img");
             recogernombre();
         }
 
-        function recogernombre(){
+        function recogernombre() {
             var nombre = localStorage.getItem("usuario");
             console.log(nombre);
-            document.getElementById("usuario").innerHTML=nombre;
-            
+            document.getElementById("usuario").innerHTML = nombre;
+
         }
         function comprobarIntento() {
 
             //1 obtener el número intro por el usuario
             let nuser = document.getElementById("num_usuario").value;
             console.log("numero usr = " + nuser);
+            numeros_jugados.push(nuser);
+        
+            console.log(numeros_jugados);
+            for (numero_jugado of numeros_jugados){
+                numeros_jugados.sort((a, b) => a - b);
+            }
+            document.getElementById("numerosjugados").innerHTML = "Numeros jugados: " + numeros_jugados;
+
+            
             //2 compararlo con el que hay que adivinar
             //si IGUAL
             //MOSTRAR EL GIF INFO EXITO
             if (nuser == naleatorio) {
                 console.log("ACIERTO!");
-                document.getElementById("info").innerHTML="HAS ACERTADO";
-                elemento_imagen_res.setAttribute ("src", RUTA_FOTO_GANA);
+                document.getElementById("info").innerHTML = "HAS ACERTADO";
+                elemento_imagen_res.setAttribute("src", RUTA_FOTO_GANA);
             }
             //si MAYOR
             //INFORMAR MAYOR
@@ -79,21 +90,21 @@
                 //QUEDAN VIDAS?
                 if (nuser > naleatorio) {
                     console.log("el buscado es menor");
-                    document.getElementById("info").innerHTML="el buscado es menor";
+                    document.getElementById("info").innerHTML = "el buscado es menor";
                 }
                 //si MENOR
                 //INFORMAR MENOR
                 //restar intentos disponibles 
                 else {
                     console.log("el buscado es mayor");
-                    document.getElementById("info").innerHTML="el buscado es mayor";
+                    document.getElementById("info").innerHTML = "el buscado es mayor";
                 }
 
                 if (num_intentos == NUM_INTENTOS_MAX) {
                     console.log("SE ACABÓ");
-                    document.getElementById("info").innerHTML="Perdiste. Buscábamos el " + naleatorio;
-                    elemento_imagen_res.setAttribute ("src", RUTA_FOTO_PIERDE);
-                    window.location.href="file:///Users/tardes/alumno/juegoAdivina/interfaces.html";
+                    document.getElementById("info").innerHTML = "Perdiste. Buscábamos el " + naleatorio;
+                    elemento_imagen_res.setAttribute("src", RUTA_FOTO_PIERDE);
+                    //window.location.href = "file:///Users/tardes/alumno/juegoAdivina/interfaces.html";
                 }
 
             }
@@ -103,9 +114,9 @@
 
 
         }
-        function cambiarusuario(){
-            window.location.href="file:///Users/tardes/alumno/juegoAdivina/interfaces.html";
-            
+        function cambiarusuario() {
+            window.location.href = "file:///Users/tardes/alumno/juegoAdivina/interfaces.html";
+
         }
 
 
@@ -115,13 +126,14 @@
 <body>
     <input type="number" id="num_usuario">
     <input type="button" value="PROBAR" onclick="comprobarIntento()"><br><br>
-    <input type="button" value="Volver a jugar" onclick="location.reload()"/><br><br>
-    <input type="button" value="Cambia de jugador" onclick="cambiarusuario()"/><br><br>
+    <input type="button" value="Volver a jugar" onclick="location.reload()" /><br><br>
+    <input type="button" value="Cambia de jugador" onclick="cambiarusuario()" /><br><br>
     <div id="vidas"></div>
     <div id="intetos">VIDAS</div>
     <div id="info"></div>
     <img id="imgres">
     <div id="usuario"></div>
+    <div id="numerosjugados"></div>
 
 </body>
 

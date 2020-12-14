@@ -6,15 +6,43 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Interfaces</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <!--<link rel='stylesheet' type='text/css' media='screen' href='main.css'>-->
     <script>
+
+
+
+
+        
+
+ 
+        /*this.onload=controlusuario;
+        
+        function controlusuario(){
+
+        
+            if(localStorage.getItem('usuario') == null  && localStorage.getItem('usuario')==   undefined){
+                document.getElementById("info").innerHTML="Introduce un jugador";
+                
+
+            }else{
+                
+                
+                guardarNombre();
+            }
+        
+        }*/
+
+
+
         function guardarNombre(){
             let nombre = document.getElementById("nom_usuario").value;
             console.log(nombre);
+            console.log(localStorage.length)
             localStorage.setItem('usuario', nombre);
-            window.location.href="file:///Users/tardes/alumno/juegoAdivina/juego.html";
-
+            console.log(localStorage);
+            window.location.href="juego.html";
         }
+        
         
 
     </script>
@@ -23,6 +51,7 @@
 <body>
     <input type="string" id="nom_usuario">
     <input type="button" value="nombre" onclick="guardarNombre()">
+    <div id="info"></div>
 
 
 </body>
