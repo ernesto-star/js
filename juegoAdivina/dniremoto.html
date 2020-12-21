@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CALCULA LETRA DNI</title>
+    <meta charset="UTF-8">
+    <script>
+
+        const URL_LETRA_DNI = "http://10.1.2.10:8080/js20765/ObtenerInfoDni?dni=";
+        //TODO VALIDAR LA ENTRADA
+        var xhr = new XMLHttpRequest();
+        function calcularURL(numero) {
+            let url_completa = '';
+          
+                console.log("DNI nacional sin letra");
+                url_completa = URL_LETRA_DNI + numero;
+            
+            return url_completa;
+        }
+
+        
+        
+        function calcular() {
+            //todo calcular la letra del dni introducido
+            //http://www.interior.gob.es/web/servicios-al-ciudadano/dni/calculo-del-digito-de-control-del-nif-nie
+            //1 OBTENER EL NÚMERO DEL DNI INTRODUCIDO
+            let numero = document.getElementById("txtDNI").value;
+
+                if(numero>=0 && numero<=99999999){
+            
+                console.log("DNI válido");
+                //LLAMAR AL SERVIDOR, CON ESE NÚMERO
+                let url = calcularURL(numero);
+                console.log("URL = " + url);
+                xhr.open("GET", url);
+                xhr.onreadystatechange = recibirLetra;
+                xhr.send();
+        
+                }else{
+                    document.getElementById("validacion").innerHTML = "El número es incorrecto vuelve a introducir un número válido";
+                    console.log("El número es incorrecto vuelve a introducir un número válido");
+                }
+
+        }
+
+        /*function recibirLetra() {
+            if (xhr.readyState == 4) {
+                console.log("respuesta rx");
+                if (xhr.status == 200) {
+                    console.log("respuesta OK");
+                    let letra_rx = xhr.responseText;
+                    console.log("letra rx = " + letra_rx);
+    
+
+                } else {
+                    console.log("COd respuesta " + xhr.status);
+                }
+            }
+        }*/
+        function recibirLetra() {
+            if (xhr.readyState == 4) {
+                console.log("respuesta rx");
+                switch(xhr.status){
+
+                    case 200:
+                        console.log("comunicacion correcta");
+                        let letra_rx = xhr.responseText;
+                        let mensaje=JSON.parse(letra_rx);
+                        console.log("numero = " + mensaje.dni.numero);
+                        console.log("letra = " + mensaje.dni.letra);
+                        console.log("nombre = " + mensaje.nombre);
+                        console.log("apellidos= " + mensaje.apellidos);
+                        console.log("mensaje= " + mensaje.mensaje);
+                        break;
+                    case 204:
+                        console.log("el alumno no existe");
+                        break;
+                    case 400:
+                        console.log("error de comunicación");
+                        break;
+                        default:
+                        console.log("ninguno de los casos");
+                }
+                
+                   
+    
+
+                } else {
+                    console.log("COd respuesta " + xhr.status);
+                }
+            }
+        
+
+    </script>
+</head>
+
+<body>
+    <fieldset style="width:400px">
+        <legend>CALCULADORA LETRA DNI</legend>
+        <label>Introduce tu DNI</label><br />
+        <input type="text" id="txtDNI" /><br />
+        <input onclick="calcular()" type="button" id="btnResultado" value="CALCULAR LETRA" /><br />
+        <label>LETRA</label><br />
+        <input type="text" id="txtLetra" /><br><br>
+        <div id="validacion"></div>
+    </fieldset>
+</body>
+
+</html>
